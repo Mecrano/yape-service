@@ -1,13 +1,13 @@
 {
   "memory": 256,
   "ttl": 10,
-  "timeout": 2,
+  "timeout": 30,
   "minReplicas": 2,
   "maxReplicas": 4,
   "workers": 1,
   "routes": {
-    "status": {
-      "path": "/_v/status/:code",
+    "getDescription": {
+      "path": "/_v/api/catalog/product/description",
       "public": true
     }
   }

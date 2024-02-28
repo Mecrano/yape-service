@@ -1,7 +1,7 @@
 {
-  "name": "service-example",
-  "vendor": "vtex",
-  "version": "0.2.24",
+  "name": "chatgpt-example",
+  "vendor": "eobando",
+  "version": "0.0.1",
   "title": "Service Example",
   "description": "Reference app for VTEX IO Services",
   "mustUpdateAt": "2018-01-04",
@@ -19,7 +19,14 @@
     {
       "name": "outbound-access",
       "attrs": {
-        "host": "httpstat.us",
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/catalog/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "api.openai.com",
         "path": "*"
       }
     },

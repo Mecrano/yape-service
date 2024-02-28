@@ -2,10 +2,12 @@ import type { ClientsConfig, ServiceContext, RecorderState } from '@vtex/api'
 import { LRUCache, method, Service } from '@vtex/api'
 
 import { Clients } from './clients'
-import { status } from './middlewares/status'
-import { validate } from './middlewares/validate'
+import {
+  getDescriptionGPT,
+  setDescriptionCatalog,
+} from './middlewares/description'
 
-const TIMEOUT_MS = 800
+const TIMEOUT_MS = 1000
 
 // Create a LRU memory cache for the Status client.
 // The 'max' parameter sets the size of the cache.
@@ -27,10 +29,6 @@ const clients: ClientsConfig<Clients> = {
       retries: 2,
       timeout: TIMEOUT_MS,
     },
-    // This key will be merged with the default options and add this cache to our Status client.
-    status: {
-      memoryCache,
-    },
   },
 }
 
@@ -40,7 +38,8 @@ declare global {
 
   // The shape of our State object found in `ctx.state`. This is used as state bag to communicate between middlewares.
   interface State extends RecorderState {
-    code: number
+    description: string
+    product: any
   }
 }
 
@@ -48,9 +47,8 @@ declare global {
 export default new Service({
   clients,
   routes: {
-    // `status` is the route ID from service.json. It maps to an array of middlewares (or a single handler).
-    status: method({
-      GET: [validate, status],
+    getDescription: method({
+      POST: [getDescriptionGPT, setDescriptionCatalog],
     }),
   },
 })
